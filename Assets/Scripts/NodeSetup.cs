@@ -5,7 +5,17 @@ using UnityEngine.SceneManagement;
 
 public class NodeSetup : MonoBehaviour
 {
-    const float zDiff = 0.866f;
+    Vector2[] nodeDistances = new Vector2[]
+    {
+        new Vector2( 0.5f, -0.866f),
+        new Vector2(   1f,      0f),
+        new Vector2( 0.5f,  0.866f),
+        new Vector2(-0.5f,  0.866f),
+        new Vector2(  -1f,      0f),
+        new Vector2(-0.5f, -0.866f)
+    };
+
+    List<Node> nodes = new List<Node>();
 
     // Start is called before the first frame update
     void Start()
@@ -15,6 +25,26 @@ public class NodeSetup : MonoBehaviour
 
     void CreateGameboard(int level)
     {
+        nodes.Clear();
+
+        Node current = new Node(Vector3.zero);
+        nodes.Add(current);
+
+        int sideLen = 1;
+        for (int l = 1; l <= level; l++)
+        {
+            Node first = new Node(new Vector3(-(l), 0, 0));
+            current = first;
+            nodes.Add(current);
+            // Left
+            for (int a = 0; a < nodeDistances.Length; a++)
+            {
+                for (int i = 0; i < sideLen; i++)
+                {
+
+                }
+            }
+        }
         // Create node @ 0,0,0
         // then create one node at -1, 0, 0
         //      a = 1

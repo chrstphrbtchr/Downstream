@@ -174,10 +174,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 6e98bfc2781169145a7ecb44c0fbecf2, type: 3}
-      propertyPath: m_ConstrainProportionsScale
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 6e98bfc2781169145a7ecb44c0fbecf2, type: 3}
       propertyPath: m_Name
       value: river_intersectionC

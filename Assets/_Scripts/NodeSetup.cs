@@ -20,7 +20,7 @@ public class NodeSetup : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        CreateGameboard(3);
     }
 
     void CreateGameboard(int level)
@@ -34,17 +34,29 @@ public class NodeSetup : MonoBehaviour
         for (int l = 1; l <= level; l++)
         {
             Node first = new Node(new Vector3(-(l), 0, 0));
+            first.SetRingSize(l);
             current = first;
             nodes.Add(current);
             // Left
             for (int a = 0; a < nodeDistances.Length; a++)
             {
-                for (int i = 0; i < sideLen; i++)
+                for (int i = 0; i < (a < nodeDistances.Length - 1 ? sideLen : sideLen - 1); i++)
                 {
-
+                    Vector3 newPos = new Vector3(current.GetLocation().x + nodeDistances[a].x, 
+                        current.GetLocation().y, current.GetLocation().z + nodeDistances[a].y);
+                    Node newNode = new Node(newPos);
+                    newNode.SetRingSize(l);
+                    nodes.Add(newNode);
+                    newNode.SetClockwiseNeighbor(current);
+                    current.SetAnticlockwiseNeighbor(newNode);
+                    current = newNode;
                 }
             }
+            current.SetAnticlockwiseNeighbor(first);
+            sideLen++;
         }
+
+        TileSetup.PlaceBlankTiles(nodes);
         // Create node @ 0,0,0
         // then create one node at -1, 0, 0
         //      a = 1

@@ -20,7 +20,7 @@ public class NodeSetup : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        CreateGameboard(3);
+        //CreateGameboard(3);
     }
 
     void CreateGameboard(int level)

@@ -17,9 +17,12 @@ public class NodeSetup : MonoBehaviour
 
     List<Node> nodes = new List<Node>();
 
+    TileSetup ts;
+
     // Start is called before the first frame update
     void Start()
     {
+        ts = GetComponent<TileSetup>();
         CreateGameboard(3);
     }
 
@@ -56,7 +59,7 @@ public class NodeSetup : MonoBehaviour
             sideLen++;
         }
 
-        TileSetup.PlaceBlankTiles(nodes);
+        ts.PlaceBlankTiles(nodes);
         // Create node @ 0,0,0
         // then create one node at -1, 0, 0
         //      a = 1

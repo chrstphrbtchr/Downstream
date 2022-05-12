@@ -140,7 +140,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 6e98bfc2781169145a7ecb44c0fbecf2, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.73
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 6e98bfc2781169145a7ecb44c0fbecf2, type: 3}
       propertyPath: m_LocalPosition.z
@@ -197,7 +197,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 53f7f450629387f4d9d1a297b1cfbe8c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.73
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 53f7f450629387f4d9d1a297b1cfbe8c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -254,7 +254,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a522edf061d29aa4d8e75a055382832f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.73
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a522edf061d29aa4d8e75a055382832f, type: 3}
       propertyPath: m_LocalRotation.w
@@ -320,6 +320,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c61ce2bff8cfa68489d4de82ff166ad7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tilePrefab: {fileID: 6448394788825302372, guid: f3f18d5227060e546a64731f17f0a0b6, type: 3}
+  waterTiles: []
+  otherTiles: []
 --- !u!4 &1645716386
 Transform:
   m_ObjectHideFlags: 0
@@ -364,7 +367,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 80914c3e651853841885bef65a1fdaed, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.73
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 80914c3e651853841885bef65a1fdaed, type: 3}
       propertyPath: m_LocalPosition.z

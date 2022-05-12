@@ -4,12 +4,14 @@ using UnityEngine;
 
 public class TileSetup : MonoBehaviour
 {
-    static GameObject tilePrefab;
-    static List<Tile> tiles = new List<Tile>();
-    static GameObject[] waterTiles;
-    static GameObject[] otherTiles;
+    List<Tile> tiles = new List<Tile>();
 
-    public static void PlaceBlankTiles(List<Node> nodes)
+    [Header("Tiles")]
+    public GameObject tilePrefab;
+    public GameObject[] waterTiles;
+    public GameObject[] otherTiles;
+
+    public void PlaceBlankTiles(List<Node> nodes)
     {
         foreach(Tile t in tiles)
         {
@@ -17,7 +19,7 @@ public class TileSetup : MonoBehaviour
         }
         tiles.Clear();
 
-        tilePrefab = Resources.Load("TilePrefab", typeof(GameObject)) as GameObject;
+        //tilePrefab = Resources.Load("TilePrefab", typeof(GameObject)) as GameObject;
 
         for(int i = 0; i < nodes.Count; i++)
         {
@@ -28,9 +30,6 @@ public class TileSetup : MonoBehaviour
             t.gameObject.transform.position = nodes[i].GetLocation();
             tiles.Add(t);
         }
-
-        waterTiles = Resources.LoadAll("Tiles/Water", typeof (GameObject)) as GameObject[];
-        otherTiles = Resources.LoadAll("Tiles/Other", typeof (GameObject)) as GameObject[];
 
     }
 

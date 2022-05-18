@@ -375,8 +375,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1645716386}
-  - component: {fileID: 1645716385}
   - component: {fileID: 1645716387}
+  - component: {fileID: 1645716385}
   m_Layer: 0
   m_Name: TEST!
   m_TagString: Untagged
@@ -428,7 +428,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6457357385a68b54ebd49fbcb8654afc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  level: 5
+  level: 4
 --- !u!1001 &1825621728
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -43,30 +43,30 @@ public class TileSetup : MonoBehaviour
         southL = southR - level;
 
         int tmp = 0;
-        i_Edges = new Edge[level + 1];
-        o_Edges = new Edge[level + 1];
+        i_Edges = new Edge[2 * (level + 1)];
+        o_Edges = new Edge[2 * (level + 1)];
 
         for(int a = northL; a <= northR; a++)
         {
-            i_Edges[tmp] = tiles[a].edgeNW;
-            tmp++;
-            i_Edges[tmp] = tiles[a].edgeNE;
-            tmp++;
+            i_Edges[tmp++] = tiles[a].edgeNW;
+            i_Edges[tmp++] = tiles[a].edgeNE;
         }
 
         tmp = 0;
 
         for(int b = southL; b <= southR; b++)
         {
-            o_Edges[tmp] = tiles[b].edgeSE;
-            tmp++;
-            o_Edges[tmp] = tiles[b].edgeSW;
-            tmp++;
+            o_Edges[tmp++] = tiles[b].edgeSE;
+            o_Edges[tmp++] = tiles[b].edgeSW;
         }
+
+        WaterTilePlacement();
     }
 
-    static void WaterTilePlacement()
+    void WaterTilePlacement()
     {
+        // Declare start tile.
+        Edge start = i_Edges[Random.Range(0, i_Edges.Length)];
 
     }
 }

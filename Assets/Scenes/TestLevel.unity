@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 100257947}
   - component: {fileID: 100257949}
   - component: {fileID: 100257948}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: DEV. CONSOLE
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -215,7 +215,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a045fecc09b442648a9e82c87b0bb9b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefix: 
+  prefix: /
   commands:
   - {fileID: 11400000, guid: 9cab22cb043be644ba20b76c809f9da5, type: 2}
   uiCanvas: {fileID: 1254829060}
@@ -289,7 +289,7 @@ GameObject:
   - component: {fileID: 310236820}
   - component: {fileID: 310236819}
   - component: {fileID: 310236818}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: INPUTFIELD
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -378,7 +378,31 @@ MonoBehaviour:
   m_CharacterLimit: 42
   m_OnEndEdit:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 100257949}
+        m_TargetAssemblyTypeName: DevConsoleBehavior, Assembly-CSharp
+        m_MethodName: ProcessCommand
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 310236818}
+        m_TargetAssemblyTypeName: TMPro.TMP_InputField, Unity.TextMeshPro
+        m_MethodName: ActivateInputField
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnSubmit:
     m_PersistentCalls:
       m_Calls: []
@@ -521,7 +545,7 @@ GameObject:
   - component: {fileID: 585396652}
   - component: {fileID: 585396654}
   - component: {fileID: 585396653}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: BKGD
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -651,7 +675,7 @@ GameObject:
   - component: {fileID: 825044612}
   - component: {fileID: 825044614}
   - component: {fileID: 825044613}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: TXT AREA
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -787,7 +811,7 @@ GameObject:
   - component: {fileID: 1254829064}
   - component: {fileID: 1254829063}
   - component: {fileID: 1254829062}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class NodeSetup : MonoBehaviour
 {
+    public int level;
     Vector2[] nodeDistances = new Vector2[]
     {
         new Vector2( 0.5f, -0.866f),
@@ -23,7 +24,7 @@ public class NodeSetup : MonoBehaviour
     void Start()
     {
         ts = GetComponent<TileSetup>();
-        CreateGameboard(3);
+        CreateGameboard(level);
     }
 
     void CreateGameboard(int level)
@@ -59,7 +60,7 @@ public class NodeSetup : MonoBehaviour
             sideLen++;
         }
 
-        ts.PlaceBlankTiles(nodes);
+        ts.PlaceBlankTiles(nodes, level);
         // Create node @ 0,0,0
         // then create one node at -1, 0, 0
         //      a = 1

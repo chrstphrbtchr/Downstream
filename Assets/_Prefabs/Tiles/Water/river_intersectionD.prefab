@@ -133,6 +133,7 @@ GameObject:
   - component: {fileID: 7464490930816688987}
   - component: {fileID: 5780626749221711102}
   - component: {fileID: 8636811374018418740}
+  - component: {fileID: 1533906648969795465}
   m_Layer: 0
   m_Name: river_intersectionD
   m_TagString: Untagged
@@ -209,6 +210,23 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &1533906648969795465
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7844393550279375329}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3d345c70115d1a4298f6e927fc377bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  possibleEdges:
+  - {fileID: 1133618365778835615}
+  - {fileID: 8702904945158070314}
+  - {fileID: 8748207744590058174}
+  - {fileID: 8135684652692295422}
 --- !u!1 &8135684652692295422
 GameObject:
   m_ObjectHideFlags: 0

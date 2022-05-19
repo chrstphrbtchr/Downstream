@@ -323,6 +323,7 @@ GameObject:
   - component: {fileID: 4753217684138062346}
   - component: {fileID: 8527858199517756847}
   - component: {fileID: 5890143784233634149}
+  - component: {fileID: 3549706682671341634}
   m_Layer: 0
   m_Name: river_crossing
   m_TagString: Untagged
@@ -399,6 +400,25 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &3549706682671341634
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5385463891735554224}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3d345c70115d1a4298f6e927fc377bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  possibleEdges:
+  - {fileID: 961136212148122015}
+  - {fileID: 8508648772244559823}
+  - {fileID: 101697058339770234}
+  - {fileID: 2350497358824933091}
+  - {fileID: 56367049772170734}
+  - {fileID: 668893438317044142}
 --- !u!1 &5566431381827021431
 GameObject:
   m_ObjectHideFlags: 0

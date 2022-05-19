@@ -4,15 +4,28 @@ using UnityEngine;
 
 public class Edge : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public Tile thisTile;
+
+    private void OnDrawGizmos()
     {
-        
+        Ray ray = new Ray(transform.position, transform.rotation * -(Vector3.forward));
+        Gizmos.color = Color.magenta;
+        Gizmos.DrawRay(ray);
     }
 
-    // Update is called once per frame
-    void Update()
+    public Edge EdgeParter()
     {
-        
+        Edge result = null;
+        RaycastHit rch;
+        if (Physics.Raycast(new Ray(transform.position, transform.rotation * -(Vector3.forward)), out rch, 0.2f))
+        {
+            if (rch.collider.gameObject != this.gameObject &&
+                rch.collider.tag == "Edge")
+            {
+                result = rch.collider.GetComponent<Edge>();
+                Debug.Log(this.name +":"+ result.name); // TODO: DELETE
+            }
+        }
+        return result;
     }
 }

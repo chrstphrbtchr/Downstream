@@ -154,6 +154,7 @@ GameObject:
   - component: {fileID: 5145946776989913311}
   - component: {fileID: 8126121834140917626}
   - component: {fileID: 6278369212764466096}
+  - component: {fileID: 4875352873300773728}
   m_Layer: 0
   m_Name: river_straight
   m_TagString: Untagged
@@ -230,6 +231,21 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &4875352873300773728
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5485881294543686245}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3d345c70115d1a4298f6e927fc377bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  possibleEdges:
+  - {fileID: 2987585465373039456}
+  - {fileID: 2375133851394557728}
 --- !u!1 &7242253808979938553
 GameObject:
   m_ObjectHideFlags: 0

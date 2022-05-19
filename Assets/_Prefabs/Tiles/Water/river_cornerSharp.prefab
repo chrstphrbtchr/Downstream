@@ -186,6 +186,7 @@ GameObject:
   - component: {fileID: 8357459540281241063}
   - component: {fileID: 4923686432945906242}
   - component: {fileID: 7183388674702595720}
+  - component: {fileID: 8844720000185420803}
   m_Layer: 0
   m_Name: river_cornerSharp
   m_TagString: Untagged
@@ -262,3 +263,18 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &8844720000185420803
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8696584473423771485}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3d345c70115d1a4298f6e927fc377bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  possibleEdges:
+  - {fileID: 2475677451841321148}
+  - {fileID: 3442362291484144845}

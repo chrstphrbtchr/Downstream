@@ -72,6 +72,7 @@ public class TileSetup : MonoBehaviour
         GameObject currentTile = Instantiate(ChooseTile(true), start.thisTile.transform.position, Quaternion.identity);
         WaterTile w = currentTile.GetComponent<WaterTile>();    // Get the WaterTile script.
         bool alligned = false;                                  // Bool for checking if current is alligned w/ start.
+        bool accepted = false;                                  // Bool for checking if next step has been found.
 
         // Remove unnecessary edges
         for (int s = 0; s < i_Edges.Length; s++) { if (i_Edges[s] != start) { Destroy(i_Edges[s]); } }
@@ -91,6 +92,42 @@ public class TileSetup : MonoBehaviour
             }
             if (!alligned) { w.Turn(true); }    // Rotate WaterTile
         }
+
+        rnd = Random.Range(0, w.possibleEdges.Length);
+        for (int r = 0; r < w.possibleEdges.Length && !accepted; r++)
+        {
+            int q = (rnd + r) % w.possibleEdges.Length;
+            if (!critPath.Contains(w.possibleEdges[q]))
+            {
+                critPath.Add(w.possibleEdges[q]);
+                accepted = true;
+            }
+        }
+        // --- TODO:////////////////////////////////////////////////
+        //          OK, SO:
+        //          Instead of doing it this way, it should
+        //          select the path FIRST before placing
+        //          any Prefabs in the Tiles.
+        //          Once the path has been created
+        //          (from a starting TILE--not edge--
+        //          to an ending TILE--not edge),
+        //          Begin laying prefabs down that line
+        //          up their water edges with the previous
+        //          & next edges in their list until @
+        //          an ending Tile (again, not Edge).
+        //              I THINK THIS WILL BE BETTER!
+        //              IT WILL KEEP THE NO. OF ITERATIONS DOWN!
+        //              BUT I WILL HAVE TO REWRITE SOME OF THIS NOW!
+        //              OH WELL!!!
+        ////////////////////////////////////////////////////////////
+
+        // Check for coll. w/ EDGE
+        //      !!! Check if that edge (or any, for that matter)
+        //          are in the o_Edges list. !!! <--------- do this before???
+        // Check if EDGE's Tile has a Prefab in it
+        // Put prefab in the Tile.
+        // Rotate to line up water with EDGE
+        // Rinse, repeat.
     }
 
     GameObject ChooseTile(bool water) => water ? waterTiles[Random.Range(0, waterTiles.Length)] : 

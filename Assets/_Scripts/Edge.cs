@@ -25,6 +25,10 @@ public class Edge : MonoBehaviour
                 result = rch.collider.GetComponent<Edge>();
                 Debug.Log(this.name +":"+ result.name); // TODO: DELETE
             }
+            else
+            {
+                Debug.Log(this.name +" NOPE : NOPE "+ result.name);// TODO: DELETE
+            }
         }
         return result;
     }

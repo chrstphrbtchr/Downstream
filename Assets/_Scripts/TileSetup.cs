@@ -39,7 +39,7 @@ public class TileSetup : MonoBehaviour
 
         CreatePath(level);
 
-        WaterTilePlacement();
+        //WaterTilePlacement();
     }
 
     void CreatePath(int level)
@@ -81,29 +81,39 @@ public class TileSetup : MonoBehaviour
         for(int e = 0; e < tiles.Count && !endFound; e++)
         {
             bool sideFound = false;
-            int rnd = Random.Range(0, 5);
+            int rnd = Random.Range(0, 6);
             for(int s = 0; s < 6 && !sideFound; s++)
             {
                 int q = (rnd + s) % 6;
-                // TILE ARCHITECTURE MUST BE UPDATED IN ORDER FOR THIS TO WORK THE WAY YOU WANT IT TO.
-                // SORRY. ASSIGNING ALL OF THE GAMEOBJECTS IN ORDER WOULD FIX THIS.
                 currentEdge = tPath[e].edges[q];
-                if (!tPath.Contains(currentEdge.EdgeParter().GetTile()))
+                if(currentEdge.EdgeParter() != null)
                 {
-                    tPath.Add(currentEdge.EdgeParter().GetTile());
-                    currentPath.Add(currentEdge);
-                    sideFound = true;
+                    if (!tPath.Contains(currentEdge.EdgeParter().GetTile()))
+                    {
+                        tPath.Add(currentEdge.EdgeParter().GetTile());
+                        currentPath.Add(currentEdge);
+                        sideFound = true;
+                    }
                 }
 
                 if (!sideFound)
                 {
-                    // ERROR!
+                    // ROTATE
                 }
+            }
+
+            if (!sideFound)
+            {
+                // ERROR!
             }
 
             if (exitTiles.Contains(currentEdge.GetTile()))
             {
-                // THEN WE HAVE AN EXIT.
+                endFound = true;
+                int coin = Random.Range(0, 2);
+                currentPath.Add((coin < 1 ? currentEdge.GetTile().edges[3] : currentEdge.GetTile().edges[4]));
+                Debug.Log("<color=cyan>OK!</color>");
+                // I HATE THE ABOVE LINE OF CODE. - c
                 // ADD ONE OF THE TWO EXIT EDGES TO THE PATH
                 // GET READY TO ROCK.
             }

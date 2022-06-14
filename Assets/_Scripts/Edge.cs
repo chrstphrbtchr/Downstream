@@ -28,4 +28,6 @@ public class Edge : MonoBehaviour
         }
         return result;
     }
+
+    public Tile GetTile() => this.thisTile;
 }

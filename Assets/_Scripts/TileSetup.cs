@@ -6,7 +6,7 @@ public class TileSetup : MonoBehaviour
 {
     int iterations = 0, maxIterations = 100;
 
-    List<Tile> tiles = new List<Tile>();
+    List<Tile> tiles  = new List<Tile>();
     List<GameObject> critPath = new List<GameObject>();
 
     [Header("Tiles")]
@@ -18,10 +18,9 @@ public class TileSetup : MonoBehaviour
     [SerializeField, Tooltip("The Northern edges of the map where the ship begins its journey.")]         Edge[] i_Edges = null;
     [SerializeField, Tooltip("The Southern edges of the map where the ship's journey comes to a close.")] Edge[] o_Edges = null;
 
+
     public void PlaceBlankTiles(List<Node> nodes, int level)
     {
-        int northL, northR, southL, southR;
-
         foreach(Tile t in tiles)
         {
             Destroy(t);
@@ -38,6 +37,19 @@ public class TileSetup : MonoBehaviour
             tiles.Add(t);
         }
 
+        CreatePath(level);
+
+        WaterTilePlacement();
+    }
+
+    void CreatePath(int level)
+    {
+        int northL, northR, southL, southR;
+        bool endFound = false;
+        List<Tile> exitTiles = new List<Tile>();
+        List<Tile> tPath = new List<Tile>();
+        List<Edge> currentPath = new List<Edge>();
+
         // Calculate in & out tiles
         northL = (level * level * 3) + (level + 1);
         northR = northL + level;
@@ -48,21 +60,58 @@ public class TileSetup : MonoBehaviour
         i_Edges = new Edge[2 * (level + 1)];
         o_Edges = new Edge[2 * (level + 1)];
 
-        for(int a = northL; a <= northR; a++)
+        for (int a = northL; a <= northR; a++)
         {
-            i_Edges.SetValue(tiles[a].edgeNW, tmp++);
-            i_Edges.SetValue(tiles[a].edgeNE, tmp++);
+            i_Edges.SetValue(tiles[a].edges[0], tmp++);
+            i_Edges.SetValue(tiles[a].edges[1], tmp++);
         }
 
         tmp = 0;
 
-        for(int b = southL; b <= southR; b++)
+        for (int b = southL; b <= southR; b++)
         {
-            o_Edges.SetValue(tiles[b].edgeSW, tmp++);
-            o_Edges.SetValue(tiles[b].edgeSE, tmp++);
+            o_Edges.SetValue(tiles[b].edges[3], tmp++);
+            o_Edges.SetValue(tiles[b].edges[4], tmp++);
+            exitTiles.Add(tiles[b]);
         }
 
-        WaterTilePlacement();
+        Edge currentEdge = i_Edges[Random.Range(0, i_Edges.Length)];  // Declare starting edge.
+        tPath.Add(currentEdge.GetTile());
+        currentPath.Add(currentEdge);
+        for(int e = 0; e < tiles.Count && !endFound; e++)
+        {
+            bool sideFound = false;
+            int rnd = Random.Range(0, 5);
+            for(int s = 0; s < 6 && !sideFound; s++)
+            {
+                int q = (rnd + s) % 6;
+                // TILE ARCHITECTURE MUST BE UPDATED IN ORDER FOR THIS TO WORK THE WAY YOU WANT IT TO.
+                // SORRY. ASSIGNING ALL OF THE GAMEOBJECTS IN ORDER WOULD FIX THIS.
+                currentEdge = tPath[e].edges[q];
+                if (!tPath.Contains(currentEdge.EdgeParter().GetTile()))
+                {
+                    tPath.Add(currentEdge.EdgeParter().GetTile());
+                    currentPath.Add(currentEdge);
+                    sideFound = true;
+                }
+
+                if (!sideFound)
+                {
+                    // ERROR!
+                }
+            }
+
+            if (exitTiles.Contains(currentEdge.GetTile()))
+            {
+                // THEN WE HAVE AN EXIT.
+                // ADD ONE OF THE TWO EXIT EDGES TO THE PATH
+                // GET READY TO ROCK.
+            }
+
+            //                  TODO:   In case of no edge partner
+            //                          In case of overlap
+            // NE, NW, W, SW, SE, E <---------------
+        }
     }
 
     void WaterTilePlacement()

@@ -110,7 +110,7 @@ public class TileSetup : MonoBehaviour
 
             //                  TODO:   In case of no edge partner
             //                          In case of overlap
-            // NE, NW, W, SW, SE, E <---------------
+            // endFound must be checked!
         }
     }
 

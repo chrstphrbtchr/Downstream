@@ -427,12 +427,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6209532c5d8be2346b94519563ab0837, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  edgeNE: {fileID: 1429591300714684983}
-  edgeNW: {fileID: 61263910503734175}
-  edge_W: {fileID: 5417574336972915994}
-  edgeSW: {fileID: 1193303125949844117}
-  edgeSE: {fileID: 8591729948211427287}
-  edge_E: {fileID: 598172970881648706}
+  edges:
+  - {fileID: 1429591300714684983}
+  - {fileID: 61263910503734175}
+  - {fileID: 5417574336972915994}
+  - {fileID: 1193303125949844117}
+  - {fileID: 8591729948211427287}
+  - {fileID: 598172970881648706}
 --- !u!1 &7085967363093838044
 GameObject:
   m_ObjectHideFlags: 0

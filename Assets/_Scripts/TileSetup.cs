@@ -48,6 +48,7 @@ public class TileSetup : MonoBehaviour
         bool endFound = false;
         List<Tile> exitTiles = new List<Tile>();
         List<Tile> tPath = new List<Tile>();
+        List<Tile> checkedTiles = new List<Tile>();
         List<Edge> currentPath = new List<Edge>();
 
         // Calculate in & out tiles
@@ -76,35 +77,54 @@ public class TileSetup : MonoBehaviour
         }
 
         Edge currentEdge = i_Edges[Random.Range(0, i_Edges.Length)];  // Declare starting edge.
+        Edge nextEdge = null;
         tPath.Add(currentEdge.GetTile());
         currentPath.Add(currentEdge);
-        for(int e = 0; e < tiles.Count && !endFound; e++)
+        int currentTileIndex = 0;
+        for(int e = 0; e < (tiles.Count * 6) && !endFound; e++)
         {
             bool sideFound = false;
             int rnd = Random.Range(0, 6);
             for(int s = 0; s < 6 && !sideFound; s++)
             {
                 int q = (rnd + s) % 6;
-                currentEdge = tPath[e].edges[q];
-                if(currentEdge.EdgeParter() != null)
+                Debug.LogFormat("<color=magenta>E: {0}, CTI: {4} :: Q: {1} = RND: {2} + S: {3}</color>", e, q, rnd,s, currentTileIndex);// delete.
+                currentEdge = tPath[currentTileIndex].edges[q];
+                nextEdge = currentEdge.EdgeParter();
+                if(nextEdge != null)
                 {
-                    if (!tPath.Contains(currentEdge.EdgeParter().GetTile()))
+                    if (!tPath.Contains(nextEdge.GetTile()))
                     {
-                        tPath.Add(currentEdge.EdgeParter().GetTile());
+                        tPath.Add(nextEdge.GetTile());
                         currentPath.Add(currentEdge);
+                        currentEdge = nextEdge;
+                        nextEdge = null;
                         sideFound = true;
                     }
+                }
+                else
+                {
+                    Debug.LogWarning("Next Edge is <color=cyan>Null</color> for Tile " + currentEdge.GetTile().name);
                 }
 
                 if (!sideFound)
                 {
-                    // ROTATE
+                    // ROTATE???
                 }
+                
             }
 
             if (!sideFound)
             {
-                // ERROR!
+                Debug.LogError("SIDE NOT FOUND.");
+
+                // Remove unnecessary Tile & Edge from their respective lists.
+                tPath.RemoveAt(tPath.Count - 1);
+                currentTileIndex = (currentTileIndex > 1 ? (currentTileIndex - 1) : 0);
+            }
+            else
+            {
+                currentTileIndex++;
             }
 
             if (exitTiles.Contains(currentEdge.GetTile()))
@@ -113,6 +133,11 @@ public class TileSetup : MonoBehaviour
                 int coin = Random.Range(0, 2);
                 currentPath.Add((coin < 1 ? currentEdge.GetTile().edges[3] : currentEdge.GetTile().edges[4]));
                 Debug.Log("<color=cyan>OK!</color>");
+                for(int z = 0; z < tPath.Count; z++)
+                {
+                    // EDITOR ONLY. DELETE ME!
+                    Debug.Log(tPath[z]);
+                }
                 // I HATE THE ABOVE LINE OF CODE. - c
                 // ADD ONE OF THE TWO EXIT EDGES TO THE PATH
                 // GET READY TO ROCK.

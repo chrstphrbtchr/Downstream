@@ -17,13 +17,13 @@ public class Edge : MonoBehaviour
     {
         Edge result = null;
         RaycastHit rch;
-        if (Physics.Raycast(new Ray(transform.position, transform.rotation * -(Vector3.forward)), out rch, 0.2f))
+        if (Physics.Raycast(new Ray(transform.position, transform.rotation * -(Vector3.forward)), out rch, 1f))
         {
             if (rch.collider.gameObject != this.gameObject &&
                 rch.collider.tag == "Edge")
             {
                 result = rch.collider.GetComponent<Edge>();
-                Debug.Log(this.name +":"+ result.name); // TODO: DELETE
+                Debug.Log(this.thisTile.name + " " + this.name +":"+ result.name); // TODO: DELETE
             }
             else
             {

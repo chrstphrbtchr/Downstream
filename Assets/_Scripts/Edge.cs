@@ -23,11 +23,10 @@ public class Edge : MonoBehaviour
                 rch.collider.tag == "Edge")
             {
                 result = rch.collider.GetComponent<Edge>();
-                Debug.Log(this.thisTile.name + " " + this.name +":"+ result.name); // TODO: DELETE
             }
             else
             {
-                Debug.Log(this.name +" NOPE : NOPE "+ result.name);// TODO: DELETE
+                //Debug.Log(this.name +" NOPE : NOPE "+ result.name);// TODO: DELETE
             }
         }
         return result;

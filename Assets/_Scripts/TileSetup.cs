@@ -46,10 +46,10 @@ public class TileSetup : MonoBehaviour
     {
         int northL, northR, southL, southR;
         bool endFound = false;
-        List<Tile> exitTiles = new List<Tile>();
-        List<Tile> tPath = new List<Tile>();
-        List<Tile> checkedTiles = new List<Tile>();
-        List<Edge> currentPath = new List<Edge>();
+        
+        List<Tile> tPath = new List<Tile>();        // The path of Tiles to get from top to bottom.
+        List<Tile> checkedTiles = new List<Tile>(); // All checked Tiles (so as to not check multiple times).
+        List<Edge> currentPath = new List<Edge>();  // The current path of Edges to follow for the Tile path.
 
         // Calculate in & out tiles
         northL = (level * level * 3) + (level + 1);
@@ -58,8 +58,8 @@ public class TileSetup : MonoBehaviour
         southL = southR - level;
 
         int tmp = 0;
-        i_Edges = new Edge[2 * (level + 1)];
-        o_Edges = new Edge[2 * (level + 1)];
+        i_Edges = new Edge[2 * (level + 1)];        // Edges at the top of the map to be used as the starting point.
+        List<Tile> exitTiles = new List<Tile>();    // Tiles at the bottom of the map whose SE/SW Edge will be used as the exit.
 
         for (int a = northL; a <= northR; a++)
         {
@@ -67,20 +67,16 @@ public class TileSetup : MonoBehaviour
             i_Edges.SetValue(tiles[a].edges[1], tmp++);
         }
 
-        tmp = 0;
-
         for (int b = southL; b <= southR; b++)
         {
-            o_Edges.SetValue(tiles[b].edges[3], tmp++);
-            o_Edges.SetValue(tiles[b].edges[4], tmp++);
             exitTiles.Add(tiles[b]);
         }
 
-        Edge currentEdge = i_Edges[Random.Range(0, i_Edges.Length)];  // Declare starting edge.
-        Edge nextEdge = null;
-        tPath.Add(currentEdge.GetTile());
-        currentPath.Add(currentEdge);
-        int currentTileIndex = 0;
+        Edge currentEdge = i_Edges[Random.Range(0, i_Edges.Length)];    // Declare starting Edge.
+        Edge nextEdge = null;                                           // Init. next Edge.
+        tPath.Add(currentEdge.GetTile());                               // Add Tile to path.
+        currentPath.Add(currentEdge);                                   // Add Edge to path
+        int currentTileIndex = 0;                                       // Init. index for backtracking.
         for(int e = 0; e < (tiles.Count * 6) && !endFound; e++)
         {
             bool sideFound = false;
@@ -88,7 +84,7 @@ public class TileSetup : MonoBehaviour
             for(int s = 0; s < 6 && !sideFound; s++)
             {
                 int q = (rnd + s) % 6;
-                Debug.LogFormat("<color=magenta>E: {0}, CTI: {4} :: Q: {1} = RND: {2} + S: {3}</color>", e, q, rnd,s, currentTileIndex);// delete.
+                //Debug.LogFormat("<color=magenta>E: {0}, CTI: {4} :: Q: {1} = RND: {2} + S: {3}</color>", e, q, rnd,s, currentTileIndex);// delete.
                 currentEdge = tPath[currentTileIndex].edges[q];
                 nextEdge = currentEdge.EdgeParter();
                 if(nextEdge != null)
@@ -102,21 +98,11 @@ public class TileSetup : MonoBehaviour
                         sideFound = true;
                     }
                 }
-                else
-                {
-                    Debug.LogWarning("Next Edge is <color=cyan>Null</color> for Tile " + currentEdge.GetTile().name);
-                }
-
-                if (!sideFound)
-                {
-                    // ROTATE???
-                }
-                
             }
 
             if (!sideFound)
             {
-                Debug.LogError("SIDE NOT FOUND.");
+                //Debug.LogError("SIDE NOT FOUND.");
 
                 // Remove unnecessary Tile & Edge from their respective lists.
                 tPath.RemoveAt(tPath.Count - 1);
@@ -132,61 +118,27 @@ public class TileSetup : MonoBehaviour
                 endFound = true;
                 int coin = Random.Range(0, 2);
                 currentPath.Add((coin < 1 ? currentEdge.GetTile().edges[3] : currentEdge.GetTile().edges[4]));
-                Debug.Log("<color=cyan>OK!</color>");
-                for(int z = 0; z < tPath.Count; z++)
-                {
-                    // EDITOR ONLY. DELETE ME!
-                    Debug.Log(tPath[z]);
-                }
-                // I HATE THE ABOVE LINE OF CODE. - c
-                // ADD ONE OF THE TWO EXIT EDGES TO THE PATH
-                // GET READY TO ROCK.
+                //Debug.Log("<color=cyan>OK!</color>");
             }
 
             //                  TODO:   In case of no edge partner
             //                          In case of overlap
             // endFound must be checked!
         }
+        if (!endFound)
+        {
+            Debug.LogError("End not found.");
+            // In this case, restart the level and try again.
+        }
+        else
+        {
+            WaterTilePlacement();
+        }
     }
 
     void WaterTilePlacement()
     {
-        Edge start = i_Edges[Random.Range(0, i_Edges.Length)];  // Declare starting edge.
-                                                                // Pick random water tile:
-        GameObject currentTile = Instantiate(ChooseTile(true), start.thisTile.transform.position, Quaternion.identity);
-        WaterTile w = currentTile.GetComponent<WaterTile>();    // Get the WaterTile script.
-        bool alligned = false;                                  // Bool for checking if current is alligned w/ start.
-        bool accepted = false;                                  // Bool for checking if next step has been found.
-
-        // Remove unnecessary edges
-        for (int s = 0; s < i_Edges.Length; s++) { if (i_Edges[s] != start) { Destroy(i_Edges[s]); } }
-
-        int rnd = Random.Range(0, w.possibleEdges.Length);
-        for (int h = 0; h < 6 && !alligned; h++)
-        {
-            for (int p = 0; p < w.possibleEdges.Length && !alligned; p++)
-            {
-                int q = (rnd + p) % w.possibleEdges.Length;
-                if (Vector3.Distance(w.possibleEdges[q].transform.position, start.transform.position) <= 0.1f)
-                {
-                    critPath.Add(w.possibleEdges[q]);
-                    alligned = true;
-                    break;
-                }
-            }
-            if (!alligned) { w.Turn(true); }    // Rotate WaterTile
-        }
-
-        rnd = Random.Range(0, w.possibleEdges.Length);
-        for (int r = 0; r < w.possibleEdges.Length && !accepted; r++)
-        {
-            int q = (rnd + r) % w.possibleEdges.Length;
-            if (!critPath.Contains(w.possibleEdges[q]))
-            {
-                critPath.Add(w.possibleEdges[q]);
-                accepted = true;
-            }
-        }
+        
         // --- TODO:////////////////////////////////////////////////
         //          OK, SO:
         //          Instead of doing it this way, it should
@@ -216,4 +168,12 @@ public class TileSetup : MonoBehaviour
 
     GameObject ChooseTile(bool water) => water ? waterTiles[Random.Range(0, waterTiles.Length)] : 
                                                  otherTiles[Random.Range(0, otherTiles.Length)];
+
+    bool WaterTileFitsSpace(WaterTile wt, Edge inEdge, Edge outEdge)
+    {
+        bool result = false;
+        // Determine if the given Water Tile can connect
+        //  the given Edges.
+        return result;
+    }
 }

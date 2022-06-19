@@ -138,6 +138,21 @@ public class TileSetup : MonoBehaviour
     {
         for(int i = 1; i < edges.Count; i++)
         {
+            bool matchingTileFound = false;
+            int rand = Random.Range(0, waterTiles.Length);
+            for(int j = 0; j < waterTiles.Length && !matchingTileFound; j++)
+            {
+                int r = (j + rand) % waterTiles.Length;
+                int waterTileIndex;
+                if((waterTileIndex = WaterTileFitsSpace(waterTiles[r], edges[i - 1], edges[i])) >=0)
+                {
+                    // instantiate tiles[j]
+                    // rotate it so tiles[j].possiblesides[waterTileIndex] is at edges[i]
+                    // if edges[i-1] does not overlap with a water tile's edge:
+                    // rotate it so tiles[j].possiblesides[waterTileIndex] is at edges[i - 1] instead.
+                    matchingTileFound = true;
+                }
+            }
             // check i-1 & i against a random water tile.
             // perhaps this could be multithreaded?
             // rotate the tile until one of the water sides matches with i
@@ -158,11 +173,23 @@ public class TileSetup : MonoBehaviour
     GameObject ChooseTile(bool water) => water ? waterTiles[Random.Range(0, waterTiles.Length)] : 
                                                  otherTiles[Random.Range(0, otherTiles.Length)];
 
-    bool WaterTileFitsSpace(WaterTile wt, Edge inEdge, Edge outEdge)
+    int WaterTileFitsSpace(GameObject tile, Edge inEdge, Edge outEdge)
     {
-        bool result = false;
+        int result = -1;
         // Determine if the given Water Tile can connect
-        //  the given Edges.
+        //  the given Edges
+        float dist = Vector3.Distance(inEdge.transform.position, outEdge.transform.position);
+        WaterTile wt = tile.GetComponent<WaterTile>();
+        bool found = false;
+        int r = Random.Range(0, wt.possibleEdges.Length);
+        for(int e = 0; e < wt.possibleEdges.Length && !found; e++)
+        {
+            int i = (e + r) % wt.possibleEdges.Length;
+            for(int f = e + 1; f < wt.possibleEdges.Length && !found; f++)
+            {
+                //
+            }
+        }
         return result;
     }
 }

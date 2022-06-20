@@ -187,7 +187,12 @@ public class TileSetup : MonoBehaviour
             int i = (e + r) % wt.possibleEdges.Length;
             for(int f = e + 1; f < wt.possibleEdges.Length && !found; f++)
             {
-                //
+                if (Vector3.Distance(wt.possibleEdges[i].transform.position, wt.possibleEdges[(i + e) % wt.possibleEdges.Length].transform.position) == dist)
+                {
+                    // ACTUALLY, I HATE THIS.
+                    // Floats are too imperfect.
+                    // I'm just trying to not do too many iterations over the same thing(s).
+                }
             }
         }
         return result;

@@ -178,7 +178,6 @@ public class TileSetup : MonoBehaviour
         int result = -1;
         // Determine if the given Water Tile can connect
         //  the given Edges
-        float dist = Vector3.Distance(inEdge.transform.position, outEdge.transform.position);
         WaterTile wt = tile.GetComponent<WaterTile>();
         bool found = false;
         int r = Random.Range(0, wt.possibleEdges.Length);
@@ -187,12 +186,7 @@ public class TileSetup : MonoBehaviour
             int i = (e + r) % wt.possibleEdges.Length;
             for(int f = e + 1; f < wt.possibleEdges.Length && !found; f++)
             {
-                if (Vector3.Distance(wt.possibleEdges[i].transform.position, wt.possibleEdges[(i + e) % wt.possibleEdges.Length].transform.position) == dist)
-                {
-                    // ACTUALLY, I HATE THIS.
-                    // Floats are too imperfect.
-                    // I'm just trying to not do too many iterations over the same thing(s).
-                }
+                
             }
         }
         return result;

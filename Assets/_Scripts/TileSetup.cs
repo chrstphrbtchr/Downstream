@@ -1,10 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
+using UnityEngine.SceneManagement;
 
 public class TileSetup : MonoBehaviour
 {
-    int iterations = 0, maxIterations = 100;
+    private void Update()// delete me?
+    {
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            SceneManager.LoadScene(0);
+        }
+    }
+
+    int iterations = 0, maxIterations = 10;
 
     List<Tile> tiles  = new List<Tile>();
     List<GameObject> critPath = new List<GameObject>();
@@ -100,8 +110,6 @@ public class TileSetup : MonoBehaviour
 
             if (!sideFound)
             {
-                //Debug.LogError("SIDE NOT FOUND.");
-
                 // Remove unnecessary Tile & Edge from their respective lists.
                 tPath.RemoveAt(tPath.Count - 1);
                 currentTileIndex = (currentTileIndex > 1 ? (currentTileIndex - 1) : 0);
@@ -125,12 +133,31 @@ public class TileSetup : MonoBehaviour
         }
         if (!endFound)
         {
+            Testing(currentPath, true);
             Debug.LogError("End not found.");
             // In this case, restart the level and try again.
         }
         else
         {
+            Testing(currentPath, false);
             WaterTilePlacement(edges: currentPath);
+        }
+    }
+
+    private void Testing(List<Edge> currentPath, bool failed)
+    {
+        int i = currentPath.Count;
+        int j = currentPath.Count;
+        foreach(Edge edge in currentPath)
+        {
+            GameObject g = Instantiate(GameObject.CreatePrimitive(PrimitiveType.Sphere), edge.transform.position, edge.transform.rotation);
+            g.transform.localScale = new Vector3(1f, 1f, 1f)/4f;
+            Color theColor = failed ? Color.Lerp(Color.black, Color.red, (float)i / j) : Color.Lerp(Color.magenta, Color.cyan, (float)i / j);
+            g.GetComponent<MeshRenderer>().material.color = theColor;
+            var iconContent = EditorGUIUtility.IconContent("sv_label_1");
+            g.name = "POINT " + (j - i);
+            EditorGUIUtility.SetIconForObject(g, (Texture2D)iconContent.image);
+            i--;
         }
     }
 

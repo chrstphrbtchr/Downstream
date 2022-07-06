@@ -14,7 +14,7 @@ public class TileSetup : MonoBehaviour
         }
     }
 
-    int iterations = 0, maxIterations = 10;
+    const int maxIterations = 6;
 
     List<Tile> tiles  = new List<Tile>();
     List<GameObject> critPath = new List<GameObject>();
@@ -47,10 +47,10 @@ public class TileSetup : MonoBehaviour
             tiles.Add(t);
         }
 
-        CreatePath(level);
+        CreatePath(level, 1);
     }
 
-    void CreatePath(int level)
+    void CreatePath(int level, int iteration)
     {
         int northL, northR, southL, southR;
         bool endFound = false;
@@ -133,9 +133,15 @@ public class TileSetup : MonoBehaviour
         }
         if (!endFound)
         {
-            Testing(currentPath, true);
-            Debug.LogError("End not found.");
-            // In this case, restart the level and try again.
+            if(iteration < maxIterations)
+            {
+                CreatePath(level, --iteration);
+            }
+            else
+            {
+                Debug.LogError("End not found.");
+                // FAIL OUT TO TITLE W/O PENALTY.
+            }
         }
         else
         {

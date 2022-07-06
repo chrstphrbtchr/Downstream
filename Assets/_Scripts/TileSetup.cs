@@ -8,10 +8,12 @@ public class TileSetup : MonoBehaviour
 {
     private void Update()// delete me?
     {
+#if UNITY_EDITOR
         if (Input.GetKeyDown(KeyCode.Return))
         {
             SceneManager.LoadScene(0);
         }
+#endif
     }
 
     const int maxIterations = 6;
@@ -25,8 +27,7 @@ public class TileSetup : MonoBehaviour
     public GameObject[] otherTiles;
 
     [Header("Edges")]
-    [SerializeField, Tooltip("The Northern edges of the map where the ship begins its journey.")]         Edge[] i_Edges = null;
-    [SerializeField, Tooltip("The Southern edges of the map where the ship's journey comes to a close.")] Edge[] o_Edges = null;
+    [SerializeField] Edge[] i_Edges = null;
 
 
     public void PlaceBlankTiles(List<Node> nodes, int level)
@@ -124,6 +125,9 @@ public class TileSetup : MonoBehaviour
                 endFound = true;
                 int coin = Random.Range(0, 2);
                 currentPath.Add((coin < 1 ? currentEdge.GetTile().edges[3] : currentEdge.GetTile().edges[4]));
+                // =====================================TODO:=====================================
+                //  MAYYYYYBE ADD A COIN TOSS W/ INC. PROB. TO SEE IF *THIS* END TILE IS THE END?
+                // =======================================?=======================================
                 //Debug.Log("<color=cyan>OK!</color>");
             }
 
@@ -203,23 +207,45 @@ public class TileSetup : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Selects a random tile from the array. If water is true will select only water tiles.
+    /// </summary>
+    /// <param name="water">Whether returning a water tile specifically.</param>
+    /// <returns>A random Tile (as a GameObject).</returns>
     GameObject ChooseTile(bool water) => water ? waterTiles[Random.Range(0, waterTiles.Length)] : 
                                                  otherTiles[Random.Range(0, otherTiles.Length)];
-
+    /// <summary>
+    /// If the given two Edges can be mapped onto the given Tile (as a GameObject),
+    /// returns the index of an appropriate Edge in the given Tile.
+    /// </summary>
+    /// <param name="tile">The Tile that is being tested.</param>
+    /// <param name="inEdge">One of the edges to be tested against.</param>
+    /// <param name="outEdge">Another of the edges to be tested against.</param>
+    /// <returns>Returns the index of an appropriate Edge within the WaterTile of the given Tile.</returns>
     int WaterTileFitsSpace(GameObject tile, Edge inEdge, Edge outEdge)
     {
-        int result = -1;
-        // Determine if the given Water Tile can connect
-        //  the given Edges
-        WaterTile wt = tile.GetComponent<WaterTile>();
-        bool found = false;
-        int r = Random.Range(0, wt.possibleEdges.Length);
+        int result = -1;            // The return variable (negative means not found)
+        float threshold = 0.1f;     // The threshold for a corresponding match.
+        WaterTile wt = tile.GetComponent<WaterTile>();      // The WaterTile of the given Tile GameObject.
+        bool found = false;         // Is true when a match has been found.
+        int r = Random.Range(0, wt.possibleEdges.Length);   // Random Edge to start looking at.
+
+        // The distance between the two input Edges.
+        float inputDistance = Vector2.Distance(inEdge.transform.position, outEdge.transform.position);
+
         for(int e = 0; e < wt.possibleEdges.Length && !found; e++)
         {
             int i = (e + r) % wt.possibleEdges.Length;
+
             for(int f = e + 1; f < wt.possibleEdges.Length && !found; f++)
             {
-                
+                int j = (f + r) % wt.possibleEdges.Length;
+                float possibleDistance = Vector2.Distance(wt.possibleEdges[i].transform.position,
+                                                            wt.possibleEdges[j].transform.position);
+                if (Mathf.Abs(possibleDistance - inputDistance) <= threshold)    
+                {
+
+                }
             }
         }
         return result;

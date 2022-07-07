@@ -102,6 +102,7 @@ public class TileSetup : MonoBehaviour
                     {
                         tPath.Add(nextEdge.GetTile());
                         currentPath.Add(currentEdge);
+                        currentPath.Add(nextEdge);
                         currentEdge = nextEdge;
                         nextEdge = null;
                         sideFound = true;
@@ -114,6 +115,8 @@ public class TileSetup : MonoBehaviour
                 // Remove unnecessary Tile & Edge from their respective lists.
                 tPath.RemoveAt(tPath.Count - 1);
                 currentTileIndex = (currentTileIndex > 1 ? (currentTileIndex - 1) : 0);
+                // TODO: Make this better. In event of failure, we end up with like
+                //       two-hundred points on top of one another.
             }
             else
             {
@@ -139,7 +142,7 @@ public class TileSetup : MonoBehaviour
         {
             if(iteration < maxIterations)
             {
-                CreatePath(level, --iteration);
+                CreatePath(level, ++iteration);
             }
             else
             {
@@ -149,7 +152,13 @@ public class TileSetup : MonoBehaviour
         }
         else
         {
+#if UNITY_EDITOR
             Testing(currentPath, false);
+            for(int i = 0; i < currentPath.Count; i++)
+            {
+                Debug.LogFormat("<color=magenta>{0}</color>(<color=yellow>{2}</color>) @ <color=cyan>{1}</color>", currentPath[i].thisTile, currentPath[i].transform.position, currentPath[i].name);
+            }
+#endif
             WaterTilePlacement(edges: currentPath);
         }
     }
@@ -183,12 +192,17 @@ public class TileSetup : MonoBehaviour
                 int waterTileIndex;
                 if((waterTileIndex = WaterTileFitsSpace(waterTiles[r], edges[i - 1], edges[i])) >=0)
                 {
+                    Debug.LogFormat("<color=green>YEAH</color>: {0}", i);
                     // instantiate tiles[j]
                     // rotate it so tiles[j].possiblesides[waterTileIndex] is at edges[i]
                     // if edges[i-1] does not overlap with a water tile's edge:
                     // rotate it so tiles[j].possiblesides[waterTileIndex] is at edges[i - 1] instead.
                     matchingTileFound = true;
                 }
+            }
+            if (!matchingTileFound)
+            {
+                
             }
             // check i-1 & i against a random water tile.
             // perhaps this could be multithreaded?
@@ -224,30 +238,34 @@ public class TileSetup : MonoBehaviour
     /// <returns>Returns the index of an appropriate Edge within the WaterTile of the given Tile.</returns>
     int WaterTileFitsSpace(GameObject tile, Edge inEdge, Edge outEdge)
     {
-        int result = -1;            // The return variable (negative means not found)
+        if (tile == null || inEdge == null || outEdge == null)
+        {
+            Debug.LogError("WaterTileFitsSpace error: one or more inputs invalid.");
+            return -232;
+        }
         float threshold = 0.1f;     // The threshold for a corresponding match.
         WaterTile wt = tile.GetComponent<WaterTile>();      // The WaterTile of the given Tile GameObject.
-        bool found = false;         // Is true when a match has been found.
         int r = Random.Range(0, wt.possibleEdges.Length);   // Random Edge to start looking at.
 
         // The distance between the two input Edges.
         float inputDistance = Vector2.Distance(inEdge.transform.position, outEdge.transform.position);
 
-        for(int e = 0; e < wt.possibleEdges.Length && !found; e++)
+        for(int e = 0; e < wt.possibleEdges.Length; e++)
         {
             int i = (e + r) % wt.possibleEdges.Length;
 
-            for(int f = e + 1; f < wt.possibleEdges.Length && !found; f++)
+            for(int f = e + 1; f < wt.possibleEdges.Length; f++)
             {
                 int j = (f + r) % wt.possibleEdges.Length;
                 float possibleDistance = Vector2.Distance(wt.possibleEdges[i].transform.position,
                                                             wt.possibleEdges[j].transform.position);
                 if (Mathf.Abs(possibleDistance - inputDistance) <= threshold)    
                 {
-
+                    return i;
                 }
             }
         }
-        return result;
+        //Debug.LogFormat("{0} & {1} : <color=yellow>{2}</color>", inEdge.thisTile, outEdge.thisTile, inputDistance);
+        return -1;
     }
 }

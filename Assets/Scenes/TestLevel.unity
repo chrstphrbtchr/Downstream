@@ -537,7 +537,6 @@ MonoBehaviour:
   - {fileID: 3616076732261958212, guid: a29adf8ac1a2e064e87c4625efbb2fca, type: 3}
   - {fileID: 5055005685437082291, guid: 765e78d64298bb247837b0d9c023269b, type: 3}
   i_Edges: []
-  o_Edges: []
 --- !u!4 &1645716386
 Transform:
   m_ObjectHideFlags: 0
@@ -913,14 +912,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2119244619}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalRotation: {x: 0.40452835, y: -0, z: -0, w: 0.9145255}
+  m_LocalPosition: {x: 0, y: 4.06, z: -6.45}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 47.723, y: 0, z: 0}
 --- !u!114 &2119244623
 MonoBehaviour:
   m_ObjectHideFlags: 0

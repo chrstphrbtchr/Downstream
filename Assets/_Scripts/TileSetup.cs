@@ -182,7 +182,7 @@ public class TileSetup : MonoBehaviour
 
     void WaterTilePlacement(List<Edge> edges)
     {
-        for(int i = 1; i < edges.Count; i++)
+        for(int i = 1; i < edges.Count; i+=2)
         {
             bool matchingTileFound = false;
             int rand = Random.Range(0, waterTiles.Length);
@@ -192,8 +192,21 @@ public class TileSetup : MonoBehaviour
                 int waterTileIndex;
                 if((waterTileIndex = WaterTileFitsSpace(waterTiles[r], edges[i - 1], edges[i])) >=0)
                 {
-                    Debug.LogFormat("<color=green>YEAH</color>: {0}", i);
-                    // instantiate tiles[j]
+                    GameObject g = Instantiate(waterTiles[r], edges[i].thisTile.transform.position, Quaternion.identity);
+                    WaterTile water = g?.GetComponent<WaterTile>();
+                    bool aligned = false;
+                    for(int m = 0; m < 6 && !aligned; m++)
+                    {
+                        if (Vector2.Distance(water.possibleEdges[waterTileIndex].transform.position, edges[i].transform.position) > 0.1f)
+                        {
+                            water.Turn(true);
+                        }
+                        else
+                        {
+                            aligned = true;
+                            critPath.Add(g);
+                        }
+                    }
                     // rotate it so tiles[j].possiblesides[waterTileIndex] is at edges[i]
                     // if edges[i-1] does not overlap with a water tile's edge:
                     // rotate it so tiles[j].possiblesides[waterTileIndex] is at edges[i - 1] instead.

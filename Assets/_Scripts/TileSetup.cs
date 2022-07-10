@@ -115,8 +115,7 @@ public class TileSetup : MonoBehaviour
                 // Remove unnecessary Tile & Edge from their respective lists.
                 tPath.RemoveAt(tPath.Count - 1);
                 currentTileIndex = (currentTileIndex > 1 ? (currentTileIndex - 1) : 0);
-                // TODO: Make this better. In event of failure, we end up with like
-                //       two-hundred points on top of one another.
+                // TODO: might be causing an overlap issue. Check for overlap on placement?
             }
             else
             {
@@ -153,11 +152,11 @@ public class TileSetup : MonoBehaviour
         else
         {
 #if UNITY_EDITOR
-            Testing(currentPath, false);
+            /*Testing(currentPath, false);
             for(int i = 0; i < currentPath.Count; i++)
             {
                 Debug.LogFormat("<color=magenta>{0}</color>(<color=yellow>{2}</color>) @ <color=cyan>{1}</color>", currentPath[i].thisTile, currentPath[i].transform.position, currentPath[i].name);
-            }
+            }*/
 #endif
             WaterTilePlacement(edges: currentPath);
         }
@@ -192,12 +191,13 @@ public class TileSetup : MonoBehaviour
                 int waterTileIndex;
                 if((waterTileIndex = WaterTileFitsSpace(waterTiles[r], edges[i - 1], edges[i])) >=0)
                 {
-                    GameObject g = Instantiate(waterTiles[r], edges[i].thisTile.transform.position, Quaternion.identity);
+                    Transform curE = edges[i].thisTile.transform;
+                    GameObject g = Instantiate(waterTiles[r], curE.position, curE.rotation);
                     WaterTile water = g?.GetComponent<WaterTile>();
                     bool aligned = false;
                     for(int m = 0; m < 6 && !aligned; m++)
                     {
-                        if (Vector2.Distance(water.possibleEdges[waterTileIndex].transform.position, edges[i].transform.position) > 0.1f)
+                        if (Vector2.Distance(water.possibleEdges[waterTileIndex].transform.position, edges[i].transform.position) > 0.01f)
                         {
                             water.Turn(true);
                         }

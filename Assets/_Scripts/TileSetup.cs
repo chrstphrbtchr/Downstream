@@ -160,6 +160,16 @@ public class TileSetup : MonoBehaviour
 #endif
             WaterTilePlacement(edges: currentPath);
         }
+
+        for(int ii = critPath.Count - 1; ii >= 0; ii--)
+        {
+            WaterTile w = critPath[ii].GetComponent<WaterTile>();
+            if (w.overlapping)
+            {
+                critPath.RemoveAt(ii);
+                Destroy(w);
+            }
+        }
     }
 
     private void Testing(List<Edge> currentPath, bool failed)

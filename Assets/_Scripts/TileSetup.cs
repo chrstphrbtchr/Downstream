@@ -89,10 +89,11 @@ public class TileSetup : MonoBehaviour
         for(int e = 0; e < (tiles.Count * 6) && !endFound; e++)
         {
             bool sideFound = false;
-            int rnd = Random.Range(0, 6);
+            int rnd = Random.Range(0, 6), rot = Random.Range(0, 2);
             for(int s = 0; s < 6 && !sideFound; s++)
             {
-                int q = (rnd + s) % 6;
+                int q = Mathf.Abs((rnd + (s * (rot > 0 ? 1 : -1))) % 6);    // Randomizes rotation to keep
+                                                                            //  puzzle from always leaning left.
                 //Debug.LogFormat("<color=magenta>E: {0}, CTI: {4} :: Q: {1} = RND: {2} + S: {3}</color>", e, q, rnd,s, currentTileIndex);// delete.
                 currentEdge = tPath[currentTileIndex].edges[q];
                 nextEdge = currentEdge.EdgeParter();

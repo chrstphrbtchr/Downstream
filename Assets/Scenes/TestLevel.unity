@@ -507,7 +507,6 @@ MonoBehaviour:
   - {fileID: 7816558119652411735, guid: 294ea248a977fd445a80cff35b2b212e, type: 3}
   - {fileID: 3544481407418112278, guid: 84f42a09e3e730f448e523374801f8f2, type: 3}
   - {fileID: 5485881294543686245, guid: 1cb9e3fac38b0ff4881a1614919cc1d5, type: 3}
-  - {fileID: 440706695620864431, guid: 9b2e8dcd990b37345825f1ebedea4c7c, type: 3}
   otherTiles:
   - {fileID: 2597421222075488606, guid: da813c0596910d84ea5f3bd300c91132, type: 3}
   - {fileID: 4081997652871575649, guid: c53dfd022df679b4dbabb4af5bbe4fe0, type: 3}

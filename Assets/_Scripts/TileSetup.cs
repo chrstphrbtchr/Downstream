@@ -161,13 +161,16 @@ public class TileSetup : MonoBehaviour
             WaterTilePlacement(edges: currentPath);
         }
 
-        for(int ii = critPath.Count - 1; ii >= 0; ii--)
+        for(int ii = critPath.Count - 1; ii > 0; ii--)
         {
-            WaterTile w = critPath[ii].GetComponent<WaterTile>();
-            if (w.overlapping)
+            // Determine if overlapping
+            Vector3 w1 = critPath[ii    ].transform.position;
+            Vector3 w2 = critPath[ii - 1].transform.position;
+            if (Vector3.Distance(w1, w2) <= 0.1)
             {
+                Debug.LogFormat("{2}:{0}, {3}:{1} = Overlapping", w1, w2, ii, ii-1);
+                Destroy(critPath[ii]);
                 critPath.RemoveAt(ii);
-                Destroy(w);
             }
         }
     }

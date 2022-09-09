@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using UnityEngine.SceneManagement;
+using System.Linq;
 
 public class TileSetup : MonoBehaviour
 {
@@ -195,6 +196,7 @@ public class TileSetup : MonoBehaviour
 
     void WaterTilePlacement(List<Edge> edges)
     {
+        int numberOfTurns = 0;
         for(int i = 1; i < edges.Count; i+=2)
         {
             bool matchingTileFound = false;
@@ -224,6 +226,10 @@ public class TileSetup : MonoBehaviour
                     // rotate it so tiles[j].possiblesides[waterTileIndex] is at edges[i]
                     // if edges[i-1] does not overlap with a water tile's edge:
                     // rotate it so tiles[j].possiblesides[waterTileIndex] is at edges[i - 1] instead.
+                    if (edges[i].thisTile.GetOccupyingTile() != null)
+                    {
+                        edges[i].thisTile.SetOccupyingTile(g);
+                    }
                     matchingTileFound = true;
                 }
             }
@@ -245,6 +251,41 @@ public class TileSetup : MonoBehaviour
             // THEN ADD WATER TILES FOR REMAINING WATER SIDES.
             // (until no more water sides not touching a filled tile)
             // THEN TWIST ALL OF THOSE
+        }
+
+        for(int c = 0; c < critPath.Count; c++)
+        {
+            WaterTile cwt = critPath[c]?.GetComponent<WaterTile>();
+            //tiles.Remove(critPath[c]?.GetComponent<Tile>());
+            int rnd = Random.Range(0, 6);
+            bool turner = (rnd > 3 ? true : false);
+            rnd = (turner ? (Mathf.Abs(rnd - 6)) : rnd);
+
+            for(int t = 0; t < rnd; t++)
+            {
+                cwt.Turn(turner);
+                numberOfTurns++;
+            }
+        }
+
+        // THEN ROTATION OF EACH RING CONTAINING TILES
+        //      WHICH IS MORE COMPLICATED.............
+        //      SO, I'LL DO THAT LATER................
+
+        // Fill in empties:
+        for(int empt = 0; empt < tiles.Count; empt++)
+        {
+            if (tiles[empt].GetOccupyingTile() == null)
+            {
+                // assign random tile
+                //                                      TODO: IN THE FUTURE,
+                //                                              THIS SHOULD BE DETERMINED
+                //                                              BY THE EDGES OF WATERTILES FIRST.
+
+                Transform trnsfrm = tiles[empt].transform;
+                int r = Random.Range(0, otherTiles.Count() + waterTiles.Count());
+                GameObject f = Instantiate((r >= otherTiles.Count() ? waterTiles[r - otherTiles.Count()] : otherTiles[r]), trnsfrm.position, trnsfrm.rotation);
+            }             
         }
     }
 
